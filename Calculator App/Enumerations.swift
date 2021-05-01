@@ -15,4 +15,11 @@ struct Enumerations {
         case multiply = 2
         case divide = 3
     }
+    
+    enum Columns: Int {
+        case firstFromLeft = 0
+        case secondFromLeft = 1
+        case thirdFromLeft = 2
+        case fourthFromLeft = 3
+    }
 }

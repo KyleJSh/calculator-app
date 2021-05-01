@@ -282,9 +282,6 @@
                             <constraint firstItem="MKf-O7-fkh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="zif-YF-WHn"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="displayLabel" destination="68w-ad-LhZ" id="3E8-XG-lee"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
