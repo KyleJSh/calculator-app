@@ -9,14 +9,18 @@ import Foundation
 
 class LogicManager {
     
-    // MARK: Variables and Properties
-    
     var calculationArray = [Double]()
     var lastNumber = 0.0
     var lastOperation = 0.0
     var currentNumber = 0.0
     
-    // MARK: - Methods
+    func clear() {
+        
+        calculationArray = []
+        lastNumber = 0.0
+        lastOperation = 0.0
+        currentNumber = 0.0
+    }
     
     func calculateAndReturn(operation: String) -> String? {
         
@@ -28,40 +32,43 @@ class LogicManager {
                 
                 calculationArray.removeAll()
                 calculationArray.append(newValue)
+                calculationArray.append(lastOperation)
                 return String(calculationArray[0])
             }
-
             
         } else if operation == "equals" {
-            
-            
+            if calculationArray.count >= 1 {
+                
+                // calculate and return number
+                let newValue = calculate(firstNumber: calculationArray[0], secondNumber: lastNumber, operation: Int(lastOperation))
+                
+                calculationArray.removeAll()
+                calculationArray.append(newValue)
+                return String(calculationArray[0])
+            }
         }
-        
         return nil
     }
     
-    // func that calculates two numbers and returns output
     func calculate(firstNumber: Double, secondNumber: Double, operation: Int) -> Double {
-    
+        
         var total = 0.0
         
-        // tag 0 = add, tag 1 = minus, tag 2 = multiply, tag 3 = divide
-        switch operation {
-        case 0:
-            total = firstNumber + secondNumber
-        case 1:
-            total = firstNumber - secondNumber
-        case 2:
-            total = firstNumber * secondNumber
-        case 3:
-            total = firstNumber / secondNumber
-        default:
-            print("Wrong index given")
-        }
+        if let operations = Enumerations.Operations(rawValue: operation) {
+            switch operations {
+            case .add:
+                total = firstNumber + secondNumber
+            case .subtract:
+                total = firstNumber - secondNumber
+            case .multiply:
+                total = firstNumber * secondNumber
+            case .divide:
+                total = firstNumber / secondNumber
+            default:
+                print("Wrong index given")
+            }}
         
         // this returns our number as a double
         return Double(floor(1000*total)/1000)
-    
     }
-    
 }

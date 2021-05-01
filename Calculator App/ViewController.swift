@@ -8,67 +8,74 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var displayLabel: UILabel!
     
     var logicManager = LogicManager()
-    
     var clearDisplay = false
-    
     var isValidPress = false
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print(logicManager.calculate(firstNumber: 2.0, secondNumber: 2.0, operation: 3))
-        
-    }
-
+    @IBOutlet weak var displayLabel: UILabel!
+    
     @IBAction func buttonClick(_ sender: UIButton) {
+        
+        if logicManager.calculationArray.count == 1 {
+            clearClick(sender)
+        }
         
         isValidPress = true
         
         if clearDisplay == true {
-            
             displayLabel.text = ""
             clearDisplay = false
-            
         }
-        
         displayLabel.text! += sender.currentTitle!
         logicManager.currentNumber = Double(displayLabel.text!)!
-        
     }
-    
     
     @IBAction func operatorClick(_ sender: UIButton) {
         
         clearDisplay = true
         
         if isValidPress == true {
-         
-            logicManager.calculationArray.append(logicManager.currentNumber)
-            logicManager.calculationArray.append(Double(sender.tag))
             
+            if logicManager.calculationArray.count == 1 {
+                logicManager.calculationArray.append(Double(sender.tag))
+            } else {
+                logicManager.calculationArray.append(logicManager.currentNumber)
+                logicManager.calculationArray.append(Double(sender.tag))
+            }
+            displayLabel.text = String(logicManager.calculationArray[0])
         }
         
-        isValidPress = false
+        logicManager.lastOperation = Double(sender.tag)
         
         if let result = logicManager.calculateAndReturn(operation: "operation") {
-            
             displayLabel.text = result
-            
         }
-        
-        print(logicManager.calculationArray)
+        isValidPress = false
     }
-    
-    
     
     @IBAction func equalsClick(_ sender: Any) {
-        print("Equals clicked")
+        
+        isValidPress = true
+        logicManager.lastNumber = logicManager.currentNumber
+        
+        if let result = logicManager.calculateAndReturn(operation: "equals") {
+            displayLabel.text = result
+        }
     }
     
+    @IBAction func clearClick(_ sender: Any) {
+        
+        clearDisplay = false
+        isValidPress = false
+        logicManager.clear()
+        displayLabel.text = ""
+    }
     
+    @IBAction func decimalClick(_ sender: Any) {
+        
+        if !((displayLabel.text)?.contains("."))! {
+            displayLabel.text! += "."
+        }
+    }
 }
-
